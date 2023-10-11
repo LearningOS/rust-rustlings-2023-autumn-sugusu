@@ -7,7 +7,7 @@
 // Execute `rustlings hint structs3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
 
 #[derive(Debug)]
 struct Package {
@@ -18,8 +18,8 @@ struct Package {
 
 impl Package {
     fn new(sender_country: String, recipient_country: String, weight_in_grams: i32) -> Package {
-        if weight_in_grams <= 0 {
-            panic!("Can not ship a weightless package.")
+        if weight_in_grams <= 0 {//这里的weight_in_grams是i32类型，所以不能为负数
+            panic!("Can not ship a weightless package.")//这里的panic!是直接报错
         } else {
             Package {
                 sender_country,
@@ -29,12 +29,16 @@ impl Package {
         }
     }
 
-    fn is_international(&self) -> ??? {
+    fn is_international(&self) -> bool {
         // Something goes here...
+        self.sender_country != self.recipient_country//这里的self是指Package这个结构体
+
     }
 
-    fn get_fees(&self, cents_per_gram: i32) -> ??? {
+    fn get_fees(&self, cents_per_gram: i32) -> i32{
         // Something goes here...
+        self.weight_in_grams * cents_per_gram
+
     }
 }
 
@@ -58,7 +62,7 @@ mod tests {
 
         let package = Package::new(sender_country, recipient_country, 1200);
 
-        assert!(package.is_international());
+        assert!(package.is_international());//这里的assert!是判断是否为true
     }
 
     #[test]
