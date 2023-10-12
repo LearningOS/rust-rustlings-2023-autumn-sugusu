@@ -22,50 +22,54 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
-use std::error;
-use std::fmt;
-use std::num::ParseIntError;
+use std::error; // 导入错误处理相关的标准库模块
+use std::fmt;   // 导入格式化相关的标准库模块
+use std::num::ParseIntError; // 导入解析整数错误相关的标准库模块
 
-// TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
-    let pretend_user_input = "42";
-    let x: i64 = pretend_user_input.parse()?;
-    println!("output={:?}", PositiveNonzeroInteger::new(x)?);
-    Ok(())
-}
-
-// Don't change anything below this line.
-
+// 定义一个结构体 PositiveNonzeroInteger 用于表示正的非零整数
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
 
+// 定义一个枚举 CreationError 用于表示创建 PositiveNonzeroInteger 时可能的错误
 #[derive(PartialEq, Debug)]
 enum CreationError {
-    Negative,
-    Zero,
+    Negative, // 负数错误
+    Zero,     // 零错误
 }
 
 impl PositiveNonzeroInteger {
+    // 定义一个关联函数 new，它尝试创建 PositiveNonzeroInteger 实例
     fn new(value: i64) -> Result<PositiveNonzeroInteger, CreationError> {
         match value {
-            x if x < 0 => Err(CreationError::Negative),
-            x if x == 0 => Err(CreationError::Zero),
-            x => Ok(PositiveNonzeroInteger(x as u64)),
+            x if x < 0 => Err(CreationError::Negative), // 如果值为负数，返回 Negative 错误
+            x if x == 0 => Err(CreationError::Zero),     // 如果值为零，返回 Zero 错误
+            x => Ok(PositiveNonzeroInteger(x as u64)),   // 否则返回包含非零正整数的 Result
         }
     }
 }
 
-// This is required so that `CreationError` can implement `error::Error`.
+// 实现 Display trait 用于将 CreationError 转化为字符串表示
 impl fmt::Display for CreationError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // 根据错误类型返回相应的描述信息
         let description = match *self {
             CreationError::Negative => "number is negative",
             CreationError::Zero => "number is zero",
         };
-        f.write_str(description)
+        f.write_str(description) // 写入描述信息到 Formatter 中
     }
 }
 
+// 实现 Error trait 用于将 CreationError 映射为标准错误类型
 impl error::Error for CreationError {}
+
+fn main() -> Result<(), Box<dyn error::Error>> {
+    let pretend_user_input = "42";
+    let x: i64 = pretend_user_input.parse()?; // 尝试解析输入字符串为整数，可能会返回 ParseIntError
+
+    // 调用 PositiveNonzeroInteger::new(x) 尝试创建 PositiveNonzeroInteger 实例，可能会返回 CreationError
+    println!("output={:?}", PositiveNonzeroInteger::new(x)?);
+
+    Ok(()) // main 函数成功返回 Ok(())
+}
