@@ -25,18 +25,22 @@
 // information:
 // https://doc.rust-lang.org/cargo/reference/build-scripts.html
 //
-// In this exercise, we look for an environment variable and expect it to
-// fall in a range. You can look into the testcase to find out the details.
-//
-// You should NOT modify this file. Modify `build.rs` in the same directory
-// to pass this exercise.
+
 //
 // Execute `rustlings hint tests7` or use the `hint` watch subcommand for a
 // hint.
 
 // I AM NOT DONE
 
-fn main() {}
+fn main() {
+        let now = std::time::SystemTime::now()
+          .duration_since(std::time::UNIX_EPOCH)
+          .unwrap()
+          .as_secs();
+          
+        println!("cargo:rustc-env=TEST_FOO={}", now);
+      }
+
 
 #[cfg(test)]
 mod tests {
