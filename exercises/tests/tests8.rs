@@ -9,7 +9,10 @@
 
 // I AM NOT DONE
 
-fn main() {}
+fn main() {
+    #[cfg(feature = "pass")]
+    println!("cargo:rustc-cfg=feature=\"pass\"");
+}
 
 #[cfg(test)]
 mod tests {
