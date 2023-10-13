@@ -11,7 +11,6 @@
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -35,7 +34,10 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+   // 使用迭代器方法计算具有指定进度的练习数量
+    map.values().//values()方法返回一个迭代器，该迭代器产生集合中的每个值的引用。
+    filter(|&val| val == &value).//filter()方法返回一个迭代器，该迭代器产生集合中满足指定条件的每个元素的引用。
+    count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -54,7 +56,11 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    todo!();
+  // 使用迭代器方法计算具有指定进度的练习数量
+    collection
+        .iter()//iter()方法返回一个迭代器，该迭代器产生集合中的每个元素的引用。
+        .map(|map| map.values().filter(|&val| val == &value).count())//map()方法将每个元素映射到一个新值。在这种情况下，我们将每个HashMap映射到具有指定进度的练习数量。
+        .sum()//sum()方法将所有元素相加，以产生一个总和。
 }
 
 #[cfg(test)]
